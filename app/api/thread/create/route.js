@@ -1,6 +1,10 @@
 import OpenAI from "openai";
 
-export async function GET() {
+export async function GET(request) {
+
+  const { searchParams } = new URL(request.url)
+
+
   const openai = new OpenAI({
     apiKey:process.env.OPENAI_API_KEY,
   });
