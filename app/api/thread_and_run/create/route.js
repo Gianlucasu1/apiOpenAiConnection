@@ -17,7 +17,7 @@ export async function GET(request) {
 
   try {
 
-    const run = await openai.beta.threads.createAndRun({
+    let run = await openai.beta.threads.createAndRun({
       assistant_id: assistantId,
       thread: {
         messages: [
@@ -25,6 +25,15 @@ export async function GET(request) {
         ],
       },
     });
+
+    while(run.status !== "completed"){
+      console.log("run status", run.status)
+      run = await openai.beta.threads.runs.retrieve(
+       run.thread_id,
+        run.id,
+      );
+      console.log("run status 2", run.status);
+    }
 
     console.log({ run: run });
 
